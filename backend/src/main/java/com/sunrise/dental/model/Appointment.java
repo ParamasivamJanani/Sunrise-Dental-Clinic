@@ -37,6 +37,9 @@ public class Appointment {
     @Column(nullable = false, length = 20)
     private Status status = Status.SCHEDULED;
 
+    @Column(nullable = true, length = 1000)
+    private String notes;
+
     @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -53,6 +56,7 @@ public class Appointment {
     public LocalDate getAppointmentDate() { return appointmentDate; }
     public LocalTime getAppointmentTime() { return appointmentTime; }
     public Status getStatus() { return status; }
+    public String getNotes() { return notes; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 
     // Setters
@@ -64,6 +68,7 @@ public class Appointment {
     public void setAppointmentDate(LocalDate appointmentDate) { this.appointmentDate = appointmentDate; }
     public void setAppointmentTime(LocalTime appointmentTime) { this.appointmentTime = appointmentTime; }
     public void setStatus(Status status) { this.status = status; }
+    public void setNotes(String notes) { this.notes = notes; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
     public static Builder builder() { return new Builder(); }
@@ -72,6 +77,7 @@ public class Appointment {
         private Long id; private String appointmentNumber; private Patient patient;
         private Dentist dentist; private String treatmentType; private LocalDate appointmentDate;
         private LocalTime appointmentTime; private Status status = Status.SCHEDULED;
+        private String notes;
         private LocalDateTime createdAt = LocalDateTime.now();
 
         public Builder id(Long id) { this.id = id; return this; }
@@ -82,13 +88,14 @@ public class Appointment {
         public Builder appointmentDate(LocalDate d) { this.appointmentDate = d; return this; }
         public Builder appointmentTime(LocalTime t) { this.appointmentTime = t; return this; }
         public Builder status(Status s) { this.status = s; return this; }
+        public Builder notes(String n) { this.notes = n; return this; }
         public Builder createdAt(LocalDateTime c) { this.createdAt = c; return this; }
 
         public Appointment build() {
             Appointment a = new Appointment();
             a.id = id; a.appointmentNumber = appointmentNumber; a.patient = patient;
             a.dentist = dentist; a.treatmentType = treatmentType; a.appointmentDate = appointmentDate;
-            a.appointmentTime = appointmentTime; a.status = status; a.createdAt = createdAt;
+            a.appointmentTime = appointmentTime; a.status = status; a.notes = notes; a.createdAt = createdAt;
             return a;
         }
     }

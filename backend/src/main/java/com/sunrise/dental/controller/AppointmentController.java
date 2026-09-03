@@ -70,4 +70,11 @@ public class AppointmentController {
             @RequestBody Map<String, String> body) {
         return ResponseEntity.ok(appointmentService.updateStatus(appointmentNumber, body.get("status")));
     }
+
+    @PatchMapping("/{appointmentNumber}/notes")
+    public ResponseEntity<AppointmentResponse> updateNotes(
+            @PathVariable String appointmentNumber,
+            @RequestBody Map<String, String> body) {
+        return ResponseEntity.ok(appointmentService.updateNotes(appointmentNumber, body.get("notes")));
+    }
 }

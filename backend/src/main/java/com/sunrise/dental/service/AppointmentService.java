@@ -129,6 +129,14 @@ public class AppointmentService {
         return mapToResponse(appointmentRepository.save(appointment));
     }
 
+    @Transactional
+    public AppointmentResponse updateNotes(String appointmentNumber, String notes) {
+        Appointment appointment = appointmentRepository.findByAppointmentNumber(appointmentNumber)
+                .orElseThrow(() -> new AppointmentNotFoundException(appointmentNumber));
+        appointment.setNotes(notes);
+        return mapToResponse(appointmentRepository.save(appointment));
+    }
+
     private synchronized String generateAppointmentNumber() {
         LocalDate today = LocalDate.now();
         if (!today.equals(counterDate)) {
@@ -153,6 +161,7 @@ public class AppointmentService {
                 .appointmentDate(a.getAppointmentDate().toString())
                 .appointmentTime(a.getAppointmentTime().toString())
                 .status(a.getStatus().name())
+                .notes(a.getNotes())
                 .createdAt(a.getCreatedAt().toString())
                 .build();
     }

@@ -1,6 +1,7 @@
 package com.sunrise.dental.controller;
 
 import com.sunrise.dental.dto.DailyReportResponse;
+import com.sunrise.dental.dto.MonthlyReportResponse;
 import com.sunrise.dental.service.ReportService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +24,12 @@ public class ReportController {
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return ResponseEntity.ok(reportService.getDailyReport(date != null ? date : LocalDate.now()));
+    }
+
+    @GetMapping("/monthly")
+    public ResponseEntity<MonthlyReportResponse> monthlyReport(
+            @RequestParam(required = false) Integer year) {
+        int y = (year != null) ? year : LocalDate.now().getYear();
+        return ResponseEntity.ok(reportService.getMonthlyReport(y));
     }
 }

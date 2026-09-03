@@ -28,4 +28,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query("SELECT a FROM Appointment a WHERE a.appointmentDate BETWEEN :start AND :end ORDER BY a.appointmentDate, a.appointmentTime")
     List<Appointment> findByDateRange(@Param("start") LocalDate start, @Param("end") LocalDate end);
+
+    List<Appointment> findByPatient_IdOrderByAppointmentDateDesc(Long patientId);
+
+    @Query("SELECT a FROM Appointment a WHERE LOWER(a.patient.name) LIKE LOWER(CONCAT('%', :name, '%')) ORDER BY a.appointmentDate DESC")
+    List<Appointment> findByPatientNameContainingIgnoreCase(@Param("name") String name);
 }

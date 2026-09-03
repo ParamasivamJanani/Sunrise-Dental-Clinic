@@ -3,6 +3,7 @@ com\sunrise\dental\dto\BillResponse.class
 com\sunrise\dental\service\BillService.class
 com\sunrise\dental\dto\DentistRegistrationRequest.class
 com\sunrise\dental\dto\LoginResponse$Builder.class
+com\sunrise\dental\dto\MonthlyReportResponse$MonthData.class
 com\sunrise\dental\dto\DailyReportResponse.class
 com\sunrise\dental\config\DataSeeder.class
 com\sunrise\dental\dto\AppointmentResponse$Builder.class
@@ -11,6 +12,7 @@ com\sunrise\dental\dto\AppointmentResponse.class
 com\sunrise\dental\dto\BillResponse$Builder.class
 com\sunrise\dental\controller\AuthController.class
 com\sunrise\dental\model\User.class
+com\sunrise\dental\dto\PatientUpdateRequest.class
 com\sunrise\dental\service\strategy\BracesConsultationPricing.class
 com\sunrise\dental\model\Dentist$Builder.class
 com\sunrise\dental\service\AuthService.class
@@ -18,6 +20,7 @@ com\sunrise\dental\dto\DailyReportResponse$Builder.class
 com\sunrise\dental\service\strategy\TreatmentPricingStrategy.class
 com\sunrise\dental\service\strategy\ToothFillingPricing.class
 com\sunrise\dental\model\Patient$Builder.class
+com\sunrise\dental\dto\MonthlyReportResponse.class
 com\sunrise\dental\exception\BillAlreadyExistsException.class
 com\sunrise\dental\model\Appointment.class
 com\sunrise\dental\config\CorsConfig.class
@@ -33,7 +36,9 @@ com\sunrise\dental\service\EmailService.class
 com\sunrise\dental\service\ReportService.class
 com\sunrise\dental\repository\AppointmentRepository.class
 com\sunrise\dental\dto\PatientSignupRequest.class
+com\sunrise\dental\controller\PatientController.class
 com\sunrise\dental\exception\InvalidTreatmentTypeException.class
+com\sunrise\dental\service\PatientService.class
 com\sunrise\dental\dto\ForgotPasswordRequest.class
 com\sunrise\dental\SunriseDentalApplication.class
 com\sunrise\dental\exception\GlobalExceptionHandler.class
@@ -56,6 +61,7 @@ com\sunrise\dental\model\User$Builder.class
 com\sunrise\dental\config\SecurityConfig.class
 com\sunrise\dental\dto\ProfileResponse.class
 com\sunrise\dental\config\JwtUtil.class
+com\sunrise\dental\dto\PatientResponse.class
 com\sunrise\dental\model\Appointment$Status.class
 com\sunrise\dental\service\strategy\ToothExtractionPricing.class
 com\sunrise\dental\model\Bill.class

@@ -82,6 +82,10 @@ public class BillService {
         return billRepository.sumRevenueByDateRange(start, end);
     }
 
+    public double getRevenueByRange(LocalDateTime start, LocalDateTime end) {
+        return billRepository.sumRevenueByDateRange(start, end);
+    }
+
     public List<BillResponse> getMyBills(String username) {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));

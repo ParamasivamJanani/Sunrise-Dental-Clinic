@@ -10,12 +10,23 @@ const getNavItems = (role?: string) => {
       { path: '/help',     icon: '❓', label: 'Help' },
     ];
   }
+  if (role === 'ADMIN') {
+    return [
+      { path: '/',            icon: '📊', label: 'Dashboard' },
+      { path: '/reports',     icon: '📈', label: 'Reports' },
+      { path: '/help',        icon: '❓', label: 'Help' },
+    ];
+  }
   return [
-    { path: '/',         icon: '📊', label: 'Dashboard' },
-    { path: '/register', icon: '📋', label: 'Register Appointment' },
-    { path: '/search',   icon: '🔍', label: 'Search / View' },
-    { path: '/bill',     icon: '💰', label: 'Billing & Receipt' },
-    { path: '/help',     icon: '❓', label: 'Help' },
+    { path: '/',            icon: '📊', label: 'Dashboard' },
+    { path: '/register',    icon: '📋', label: 'Register Appointment' },
+    { path: '/search',      icon: '🔍', label: 'Search / View' },
+    { path: '/patients',    icon: '👥', label: 'Patients' },
+    { path: '/calendar',    icon: '📅', label: 'Calendar' },
+    { path: '/bill',        icon: '💰', label: 'Billing & Receipt' },
+    { path: '/reports',     icon: '📈', label: 'Reports' },
+    { path: '/prescription',icon: '💊', label: 'Prescription' },
+    { path: '/help',        icon: '❓', label: 'Help' },
   ];
 };
 

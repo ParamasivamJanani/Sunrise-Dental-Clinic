@@ -28,7 +28,12 @@
   --color-success:  #10b981;
   --color-warning:  #f59e0b;
   --color-error:    #ef4444;
+  --color-danger:   #ef4444;
   --color-info:     #3b82f6;
+
+  /* Background helpers */
+  --color-bg-card:  #111827;
+  --color-bg-hover: rgba(255,255,255,0.04);
 
   /* Spacing */
   --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;

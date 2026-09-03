@@ -38,11 +38,13 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/appointments/me/**").hasRole("PATIENT")
                 .requestMatchers(HttpMethod.GET,    "/api/bills/me").hasRole("PATIENT")
                 // Staff / admin endpoints
-                .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "RECEPTIONIST")
+                .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "RECEPTIONIST", "DENTIST")
                 .requestMatchers(HttpMethod.POST, "/api/dentists/register").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/dentists/**").authenticated()
-                .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "RECEPTIONIST")
+                .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "RECEPTIONIST", "DENTIST")
                 .requestMatchers("/api/bills/**").hasAnyRole("ADMIN", "RECEPTIONIST")
+                .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("ADMIN", "RECEPTIONIST", "DENTIST")
+                .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasAnyRole("ADMIN", "RECEPTIONIST")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

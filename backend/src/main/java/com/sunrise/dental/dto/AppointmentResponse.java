@@ -5,7 +5,7 @@ public class AppointmentResponse {
     private String address; private String contactNumber; private String dentistName;
     private String dentistSpecialization; private String treatmentType;
     private String appointmentDate; private String appointmentTime;
-    private String status; private String createdAt;
+    private String status; private String createdAt; private String notes;
 
     public AppointmentResponse() {}
 
@@ -21,6 +21,7 @@ public class AppointmentResponse {
     public String getAppointmentTime() { return appointmentTime; }
     public String getStatus() { return status; }
     public String getCreatedAt() { return createdAt; }
+    public String getNotes() { return notes; }
 
     public static Builder builder() { return new Builder(); }
 
@@ -29,7 +30,7 @@ public class AppointmentResponse {
         private String address; private String contactNumber; private String dentistName;
         private String dentistSpecialization; private String treatmentType;
         private String appointmentDate; private String appointmentTime;
-        private String status; private String createdAt;
+        private String status; private String createdAt; private String notes;
 
         public Builder id(Long id) { this.id = id; return this; }
         public Builder appointmentNumber(String s) { this.appointmentNumber = s; return this; }
@@ -43,6 +44,7 @@ public class AppointmentResponse {
         public Builder appointmentTime(String s) { this.appointmentTime = s; return this; }
         public Builder status(String s) { this.status = s; return this; }
         public Builder createdAt(String s) { this.createdAt = s; return this; }
+        public Builder notes(String s) { this.notes = s; return this; }
 
         public AppointmentResponse build() {
             AppointmentResponse r = new AppointmentResponse();
@@ -50,7 +52,7 @@ public class AppointmentResponse {
             r.address = address; r.contactNumber = contactNumber; r.dentistName = dentistName;
             r.dentistSpecialization = dentistSpecialization; r.treatmentType = treatmentType;
             r.appointmentDate = appointmentDate; r.appointmentTime = appointmentTime;
-            r.status = status; r.createdAt = createdAt;
+            r.status = status; r.createdAt = createdAt; r.notes = notes;
             return r;
         }
     }

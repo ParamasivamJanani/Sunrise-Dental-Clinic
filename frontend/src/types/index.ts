@@ -35,6 +35,7 @@ export interface AppointmentResponse {
   appointmentTime: string;
   status: string;
   createdAt: string;
+  notes?: string;
 }
 
 export interface BillResponse {
@@ -72,7 +73,27 @@ export interface DailyReportResponse {
   appointments: AppointmentResponse[];
 }
 
-export type UserRole = 'ADMIN' | 'RECEPTIONIST' | 'DENTIST';
+export interface PatientResponse {
+  id: number;
+  name: string;
+  address: string;
+  contactNumber: string;
+  totalAppointments: number;
+  registeredAt: string;
+}
+
+export interface MonthlyReportResponse {
+  year: number;
+  months: {
+    month: string;
+    monthNumber: number;
+    totalAppointments: number;
+    completedAppointments: number;
+    totalRevenue: number;
+  }[];
+}
+
+export type UserRole = 'ADMIN' | 'RECEPTIONIST' | 'DENTIST' | 'PATIENT';
 
 export interface AuthUser {
   token: string;
