@@ -71,11 +71,11 @@ const Navbar = () => {
         ))}
         {user?.role === 'ADMIN' && (
           <NavLink
-            to="/register-dentist"
+            to="/staff"
             className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
           >
-            <span className="nav-link-icon">🧑‍⚕️</span>
-            Register Dentist
+            <span className="nav-link-icon">👥</span>
+            Staff Management
           </NavLink>
         )}
       </nav>

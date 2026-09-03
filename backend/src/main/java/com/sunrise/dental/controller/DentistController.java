@@ -34,6 +34,21 @@ public class DentistController {
         return ResponseEntity.ok(getAvailableDentists());
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<DentistResponse>> listAllDentists() {
+        return ResponseEntity.ok(
+            dentistRepository.findAll().stream()
+                .map(d -> DentistResponse.builder()
+                        .id(d.getId())
+                        .name(d.getName())
+                        .specialization(d.getSpecialization())
+                        .consultationFee(d.getConsultationFee())
+                        .isAvailable(d.isAvailable())
+                        .build())
+                .collect(Collectors.toList())
+        );
+    }
+
     private List<DentistResponse> getAvailableDentists() {
         return dentistRepository.findByIsAvailableTrue().stream()
                 .map(d -> DentistResponse.builder()

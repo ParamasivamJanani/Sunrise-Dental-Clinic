@@ -8,6 +8,7 @@ import SearchPage from './pages/SearchPage';
 import BillPage from './pages/BillPage';
 import HelpPage from './pages/HelpPage';
 import DentistRegisterPage from './pages/DentistRegisterPage';
+import StaffManagementPage from './pages/StaffManagementPage';
 import PatientSignupPage from './pages/PatientSignupPage';
 import PatientDashboard from './pages/PatientDashboard';
 import PatientProfilePage from './pages/PatientProfilePage';
@@ -34,6 +35,7 @@ function App() {
           <Route path="/signup" element={<PatientSignupPage />} />
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/register" element={<ProtectedRoute allowedRoles={['RECEPTIONIST', 'DENTIST']}><RegisterPage /></ProtectedRoute>} />
+          <Route path="/staff" element={<ProtectedRoute allowedRoles={['ADMIN']}><StaffManagementPage /></ProtectedRoute>} />
           <Route path="/register-dentist" element={<ProtectedRoute allowedRoles={['ADMIN']}><DentistRegisterPage /></ProtectedRoute>} />
           <Route path="/search" element={<ProtectedRoute allowedRoles={['ADMIN', 'RECEPTIONIST', 'DENTIST']}><SearchPage /></ProtectedRoute>} />
           <Route path="/bill" element={<ProtectedRoute allowedRoles={['RECEPTIONIST', 'DENTIST']}><BillPage /></ProtectedRoute>} />
