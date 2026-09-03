@@ -1,10 +1,12 @@
 com\sunrise\dental\config\JwtAuthFilter.class
 com\sunrise\dental\dto\BillResponse.class
 com\sunrise\dental\service\BillService.class
+com\sunrise\dental\dto\DentistRegistrationRequest.class
 com\sunrise\dental\dto\LoginResponse$Builder.class
 com\sunrise\dental\dto\DailyReportResponse.class
 com\sunrise\dental\config\DataSeeder.class
 com\sunrise\dental\dto\AppointmentResponse$Builder.class
+com\sunrise\dental\util\PasswordUtils.class
 com\sunrise\dental\dto\AppointmentResponse.class
 com\sunrise\dental\dto\BillResponse$Builder.class
 com\sunrise\dental\controller\AuthController.class
@@ -27,9 +29,11 @@ com\sunrise\dental\controller\BillController.class
 com\sunrise\dental\repository\PatientRepository.class
 com\sunrise\dental\service\strategy\TeethCleaningPricing.class
 com\sunrise\dental\service\AppointmentService.class
+com\sunrise\dental\service\EmailService.class
 com\sunrise\dental\service\ReportService.class
 com\sunrise\dental\repository\AppointmentRepository.class
 com\sunrise\dental\exception\InvalidTreatmentTypeException.class
+com\sunrise\dental\dto\ForgotPasswordRequest.class
 com\sunrise\dental\SunriseDentalApplication.class
 com\sunrise\dental\exception\GlobalExceptionHandler.class
 com\sunrise\dental\service\strategy\ConsultationPricing.class
@@ -42,6 +46,7 @@ com\sunrise\dental\service\strategy\TeethWhiteningPricing.class
 com\sunrise\dental\repository\BillRepository.class
 com\sunrise\dental\dto\AppointmentRequest.class
 com\sunrise\dental\model\Appointment$Builder.class
+com\sunrise\dental\service\DentistService.class
 com\sunrise\dental\exception\AppointmentNotFoundException.class
 com\sunrise\dental\controller\ReportController.class
 com\sunrise\dental\model\User$Builder.class

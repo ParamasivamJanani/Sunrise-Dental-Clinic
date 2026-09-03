@@ -12,7 +12,9 @@ C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\s
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\AppointmentResponse.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\BillResponse.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\DailyReportResponse.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\DentistRegistrationRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\DentistResponse.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\ForgotPasswordRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\LoginRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\LoginResponse.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\AppointmentNotFoundException.java
@@ -33,6 +35,8 @@ C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\s
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\AppointmentService.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\AuthService.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\BillService.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\DentistService.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\EmailService.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\ReportService.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\strategy\BracesConsultationPricing.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\strategy\ConsultationPricing.java
@@ -43,3 +47,4 @@ C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\s
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\strategy\ToothFillingPricing.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\service\strategy\TreatmentPricingStrategy.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\SunriseDentalApplication.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\util\PasswordUtils.java

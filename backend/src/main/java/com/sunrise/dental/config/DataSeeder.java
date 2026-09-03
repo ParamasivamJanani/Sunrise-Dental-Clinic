@@ -33,11 +33,11 @@ public class DataSeeder implements CommandLineRunner {
 
     private void seedUsers() {
         if (userRepository.count() == 0) {
-            userRepository.save(User.builder().username("admin").password(passwordEncoder.encode("admin123"))
+            userRepository.save(User.builder().username("admin").email("admin@sunrise.com").password(passwordEncoder.encode("admin123"))
                     .fullName("System Administrator").role(User.Role.ADMIN).build());
-            userRepository.save(User.builder().username("staff").password(passwordEncoder.encode("staff123"))
+            userRepository.save(User.builder().username("staff").email("staff@sunrise.com").password(passwordEncoder.encode("staff123"))
                     .fullName("Clinic Receptionist").role(User.Role.RECEPTIONIST).build());
-            userRepository.save(User.builder().username("drpriya").password(passwordEncoder.encode("dentist123"))
+            userRepository.save(User.builder().username("drpriya").email("drpriya@sunrise.com").password(passwordEncoder.encode("dentist123"))
                     .fullName("Dr. Priya Perera").role(User.Role.DENTIST).build());
             log.info("Default users seeded: admin / staff / drpriya");
         }

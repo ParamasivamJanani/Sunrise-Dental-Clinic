@@ -48,6 +48,15 @@ const Navbar = () => {
             {item.label}
           </NavLink>
         ))}
+        {user?.role === 'ADMIN' && (
+          <NavLink
+            to="/register-dentist"
+            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+          >
+            <span className="nav-link-icon">🧑‍⚕️</span>
+            Register Dentist
+          </NavLink>
+        )}
       </nav>
 
       <div className="sidebar-footer">

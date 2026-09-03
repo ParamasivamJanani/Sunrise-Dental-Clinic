@@ -29,4 +29,14 @@ public class AuthController {
             return ResponseEntity.status(401).body(Map.of("message", e.getMessage()));
         }
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody com.sunrise.dental.dto.ForgotPasswordRequest request) {
+        try {
+            authService.resetPassword(request.getUsername());
+            return ResponseEntity.ok(Map.of("message", "A new password has been sent to your email."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
 }

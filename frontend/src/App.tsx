@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import SearchPage from './pages/SearchPage';
 import BillPage from './pages/BillPage';
 import HelpPage from './pages/HelpPage';
+import DentistRegisterPage from './pages/DentistRegisterPage';
 import './styles/globals.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/register" element={<ProtectedRoute><RegisterPage /></ProtectedRoute>} />
+          <Route path="/register-dentist" element={<ProtectedRoute><DentistRegisterPage /></ProtectedRoute>} />
           <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
           <Route path="/bill" element={<ProtectedRoute><BillPage /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><HelpPage /></ProtectedRoute>} />
