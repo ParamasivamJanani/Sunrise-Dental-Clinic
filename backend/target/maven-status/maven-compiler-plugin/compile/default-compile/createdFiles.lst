@@ -32,6 +32,7 @@ com\sunrise\dental\service\AppointmentService.class
 com\sunrise\dental\service\EmailService.class
 com\sunrise\dental\service\ReportService.class
 com\sunrise\dental\repository\AppointmentRepository.class
+com\sunrise\dental\dto\PatientSignupRequest.class
 com\sunrise\dental\exception\InvalidTreatmentTypeException.class
 com\sunrise\dental\dto\ForgotPasswordRequest.class
 com\sunrise\dental\SunriseDentalApplication.class

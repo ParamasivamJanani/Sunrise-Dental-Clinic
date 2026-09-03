@@ -8,7 +8,16 @@ import SearchPage from './pages/SearchPage';
 import BillPage from './pages/BillPage';
 import HelpPage from './pages/HelpPage';
 import DentistRegisterPage from './pages/DentistRegisterPage';
+import PatientSignupPage from './pages/PatientSignupPage';
+import PatientDashboard from './pages/PatientDashboard';
+import { useAuth } from './context/AuthContext';
 import './styles/globals.css';
+
+const Home = () => {
+  const { user } = useAuth();
+  if (user?.role === 'PATIENT') return <PatientDashboard />;
+  return <DashboardPage />;
+};
 
 function App() {
   return (
@@ -16,7 +25,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/signup" element={<PatientSignupPage />} />
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/register" element={<ProtectedRoute><RegisterPage /></ProtectedRoute>} />
           <Route path="/register-dentist" element={<ProtectedRoute><DentistRegisterPage /></ProtectedRoute>} />
           <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />

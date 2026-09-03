@@ -17,6 +17,7 @@ C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\s
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\ForgotPasswordRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\LoginRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\LoginResponse.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\PatientSignupRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\AppointmentNotFoundException.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\BillAlreadyExistsException.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\DuplicateAppointmentException.java

@@ -15,6 +15,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     Optional<Appointment> findByAppointmentNumber(String appointmentNumber);
 
+    List<Appointment> findByPatient_ContactNumber(String contactNumber);
+
     boolean existsByAppointmentNumber(String appointmentNumber);
 
     List<Appointment> findByAppointmentDate(LocalDate date);

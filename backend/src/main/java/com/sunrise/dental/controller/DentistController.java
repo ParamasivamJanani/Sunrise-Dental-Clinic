@@ -26,7 +26,16 @@ public class DentistController {
 
     @GetMapping
     public ResponseEntity<List<DentistResponse>> listDentists() {
-        List<DentistResponse> dentists = dentistRepository.findByIsAvailableTrue().stream()
+        return ResponseEntity.ok(getAvailableDentists());
+    }
+
+    @GetMapping("/public")
+    public ResponseEntity<List<DentistResponse>> listPublicDentists() {
+        return ResponseEntity.ok(getAvailableDentists());
+    }
+
+    private List<DentistResponse> getAvailableDentists() {
+        return dentistRepository.findByIsAvailableTrue().stream()
                 .map(d -> DentistResponse.builder()
                         .id(d.getId())
                         .name(d.getName())
@@ -35,7 +44,6 @@ public class DentistController {
                         .isAvailable(d.isAvailable())
                         .build())
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(dentists);
     }
 
     @PostMapping("/register")

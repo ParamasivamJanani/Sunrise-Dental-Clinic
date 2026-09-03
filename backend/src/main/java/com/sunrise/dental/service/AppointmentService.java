@@ -9,6 +9,8 @@ import com.sunrise.dental.model.Patient;
 import com.sunrise.dental.repository.AppointmentRepository;
 import com.sunrise.dental.repository.DentistRepository;
 import com.sunrise.dental.repository.PatientRepository;
+import com.sunrise.dental.repository.UserRepository;
+import com.sunrise.dental.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,16 +28,19 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final PatientRepository patientRepository;
     private final DentistRepository dentistRepository;
+    private final UserRepository userRepository;
 
     private final AtomicInteger dailyCounter = new AtomicInteger(0);
     private volatile LocalDate counterDate = LocalDate.now();
 
     public AppointmentService(AppointmentRepository appointmentRepository,
                               PatientRepository patientRepository,
-                              DentistRepository dentistRepository) {
+                              DentistRepository dentistRepository,
+                              UserRepository userRepository) {
         this.appointmentRepository = appointmentRepository;
         this.patientRepository = patientRepository;
         this.dentistRepository = dentistRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -49,11 +54,12 @@ public class AppointmentService {
         var dentist = dentistRepository.findById(request.getDentistId())
                 .orElseThrow(() -> new EntityNotFoundException("Dentist not found with ID: " + request.getDentistId()));
 
-        Patient patient = patientRepository.save(Patient.builder()
-                .name(request.getPatientName())
-                .address(request.getAddress())
-                .contactNumber(request.getContactNumber())
-                .build());
+        Patient patient = patientRepository.findByContactNumber(request.getContactNumber())
+                .orElseGet(() -> patientRepository.save(Patient.builder()
+                        .name(request.getPatientName())
+                        .address(request.getAddress())
+                        .contactNumber(request.getContactNumber())
+                        .build()));
 
         Appointment appointment = appointmentRepository.save(Appointment.builder()
                 .appointmentNumber(appointmentNumber)
@@ -82,6 +88,14 @@ public class AppointmentService {
 
     public List<AppointmentResponse> listToday() {
         return appointmentRepository.findByAppointmentDate(LocalDate.now()).stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<AppointmentResponse> listMyAppointments(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return appointmentRepository.findByPatient_ContactNumber(user.getContactNumber()).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }

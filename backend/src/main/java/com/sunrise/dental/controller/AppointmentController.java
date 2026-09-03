@@ -26,6 +26,11 @@ public class AppointmentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(appointmentService.registerAppointment(request));
     }
 
+    @PostMapping("/public")
+    public ResponseEntity<AppointmentResponse> registerPublic(@Valid @RequestBody AppointmentRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(appointmentService.registerAppointment(request));
+    }
+
     @GetMapping("/{appointmentNumber}")
     public ResponseEntity<AppointmentResponse> getByNumber(@PathVariable String appointmentNumber) {
         return ResponseEntity.ok(appointmentService.findByAppointmentNumber(appointmentNumber));
@@ -39,6 +44,11 @@ public class AppointmentController {
     @GetMapping("/today")
     public ResponseEntity<List<AppointmentResponse>> listToday() {
         return ResponseEntity.ok(appointmentService.listToday());
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<AppointmentResponse>> listMyAppointments(java.security.Principal principal) {
+        return ResponseEntity.ok(appointmentService.listMyAppointments(principal.getName()));
     }
 
     @PatchMapping("/{appointmentNumber}/status")

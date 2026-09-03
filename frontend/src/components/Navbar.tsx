@@ -1,13 +1,21 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const navItems = [
-  { path: '/',         icon: '📊', label: 'Dashboard' },
-  { path: '/register', icon: '📋', label: 'Register Appointment' },
-  { path: '/search',   icon: '🔍', label: 'Search / View' },
-  { path: '/bill',     icon: '💰', label: 'Billing & Receipt' },
-  { path: '/help',     icon: '❓', label: 'Help' },
-];
+const getNavItems = (role?: string) => {
+  if (role === 'PATIENT') {
+    return [
+      { path: '/',         icon: '📊', label: 'My Portal' },
+      { path: '/help',     icon: '❓', label: 'Help' },
+    ];
+  }
+  return [
+    { path: '/',         icon: '📊', label: 'Dashboard' },
+    { path: '/register', icon: '📋', label: 'Register Appointment' },
+    { path: '/search',   icon: '🔍', label: 'Search / View' },
+    { path: '/bill',     icon: '💰', label: 'Billing & Receipt' },
+    { path: '/help',     icon: '❓', label: 'Help' },
+  ];
+};
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -19,11 +27,11 @@ const Navbar = () => {
   };
 
   const initials = user?.fullName
-    .split(' ')
-    .map(n => n[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase() ?? 'U';
+    ?.split(' ')
+    ?.map(n => n[0])
+    ?.slice(0, 2)
+    ?.join('')
+    ?.toUpperCase() ?? 'U';
 
   return (
     <aside className="sidebar">
@@ -37,7 +45,7 @@ const Navbar = () => {
 
       <nav className="sidebar-nav">
         <div className="nav-section-label">Menu</div>
-        {navItems.map(item => (
+        {getNavItems(user?.role).map(item => (
           <NavLink
             key={item.path}
             to={item.path}

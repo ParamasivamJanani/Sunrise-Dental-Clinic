@@ -3,7 +3,11 @@ package com.sunrise.dental.service;
 import com.sunrise.dental.config.JwtUtil;
 import com.sunrise.dental.dto.LoginRequest;
 import com.sunrise.dental.dto.LoginResponse;
+import com.sunrise.dental.dto.PatientSignupRequest;
+import com.sunrise.dental.model.User;
+import com.sunrise.dental.model.Patient;
 import com.sunrise.dental.repository.UserRepository;
+import com.sunrise.dental.repository.PatientRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.sunrise.dental.util.PasswordUtils;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,12 +18,14 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final EmailService emailService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, EmailService emailService) {
+    public AuthService(UserRepository userRepository, PatientRepository patientRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, EmailService emailService) {
         this.userRepository = userRepository;
+        this.patientRepository = patientRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.emailService = emailService;
@@ -60,5 +66,39 @@ public class AuthService {
         userRepository.save(user);
 
         emailService.sendPasswordResetEmail(user.getEmail(), newPassword);
+    }
+
+    public LoginResponse registerPatient(PatientSignupRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new IllegalArgumentException("Username is already taken.");
+        }
+        
+        User user = User.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .email(request.getEmail())
+                .fullName(request.getFullName())
+                .contactNumber(request.getContactNumber())
+                .role(User.Role.PATIENT)
+                .isActive(true)
+                .build();
+                
+        userRepository.save(user);
+        
+        patientRepository.findByContactNumber(request.getContactNumber())
+                .orElseGet(() -> patientRepository.save(Patient.builder()
+                        .name(request.getFullName())
+                        .contactNumber(request.getContactNumber())
+                        .address(request.getAddress())
+                        .build()));
+                        
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
+        
+        return LoginResponse.builder()
+                .token(token)
+                .role(user.getRole().name())
+                .fullName(user.getFullName())
+                .username(user.getUsername())
+                .build();
     }
 }

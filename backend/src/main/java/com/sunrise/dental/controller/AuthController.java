@@ -39,4 +39,14 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
+
+    @PostMapping("/register-patient")
+    public ResponseEntity<?> registerPatient(@Valid @RequestBody com.sunrise.dental.dto.PatientSignupRequest request) {
+        try {
+            LoginResponse response = authService.registerPatient(request);
+            return ResponseEntity.status(201).body(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
 }

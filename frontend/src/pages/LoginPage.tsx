@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 import { useAuth } from '../context/AuthContext';
 import { LoginResponse, UserRole } from '../types';
@@ -131,6 +131,12 @@ const LoginPage = () => {
                <a href="#" onClick={(e) => { e.preventDefault(); setForgotPasswordMode(false); setError(''); setSuccessMsg(''); }} style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
                   Back to Login
                 </a>
+            </div>
+          )}
+
+          {!forgotPasswordMode && (
+            <div style={{ textAlign: 'center', marginTop: 'var(--space-4)', fontSize: '0.9rem' }}>
+              Are you a new patient? <Link to="/signup" style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>Sign up here</Link>
             </div>
           )}
         </form>

@@ -29,6 +29,9 @@ public class SecurityConfig {
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/appointments/public", "/api/dentists/public").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/appointments/me").hasRole("PATIENT")
+                .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "RECEPTIONIST")
                 .requestMatchers(HttpMethod.POST, "/api/dentists/register").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/dentists/**").authenticated()
                 .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "RECEPTIONIST")
