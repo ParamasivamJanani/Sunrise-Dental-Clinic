@@ -3,6 +3,8 @@ import Navbar from "../components/Navbar";
 import axiosClient from "../api/axiosClient";
 import { PatientResponse, AppointmentResponse } from "../types";
 
+const phoneRegex = /^(\+94|0)[0-9]{9}$/;
+
 const PatientsPage = () => {
   const [patients, setPatients] = useState<PatientResponse[]>([]);
   const [filtered, setFiltered] = useState<PatientResponse[]>([]);
@@ -43,6 +45,20 @@ const PatientsPage = () => {
 
   const handleSave = async () => {
     if (!selected) return;
+    
+    if (!editForm.name.trim()) {
+      setSaveMsg("Full name is required.");
+      return;
+    }
+    if (!editForm.address.trim()) {
+      setSaveMsg("Address is required.");
+      return;
+    }
+    if (!phoneRegex.test(editForm.contactNumber)) {
+      setSaveMsg("Enter a valid Sri Lankan phone number.");
+      return;
+    }
+
     setSaving(true); setSaveMsg("");
     try {
       const updated = await axiosClient.put<PatientResponse>(`/patients/${selected.id}`, editForm);

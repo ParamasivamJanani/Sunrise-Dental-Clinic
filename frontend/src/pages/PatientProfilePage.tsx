@@ -68,6 +68,7 @@ const PatientProfilePage = () => {
   const handlePassSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPassError(''); setPassSuccess('');
+    if (!passwords.currentPassword) return setPassError('Current password is required.');
     if (passwords.newPassword.length < 6) return setPassError('New password must be at least 6 characters.');
     if (passwords.newPassword !== passwords.confirmPassword) return setPassError('New passwords do not match.');
 

@@ -14,6 +14,9 @@ const TREATMENTS = [
   { value: 'BRACES_CONSULTATION',label: 'Braces Consultation — LKR 2,000' },
 ];
 
+const timeRegex  = /^([0-1]\d|2[0-3]):[0-5]\d$/;
+const phoneRegex = /^(\+94|0)[0-9]{9}$/;
+
 const PatientDashboard = () => {
   const { user } = useAuth();
   const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
@@ -64,7 +67,10 @@ const PatientDashboard = () => {
     if (!form.dentistId) errs.dentistId = 'Select a dentist.';
     if (!form.treatmentType) errs.treatmentType = 'Select a treatment.';
     if (!form.appointmentDate) errs.appointmentDate = 'Select a date.';
+    else if (new Date(form.appointmentDate) < new Date(new Date().toDateString())) errs.appointmentDate = 'Appointment date cannot be in the past.';
+    
     if (!form.appointmentTime) errs.appointmentTime = 'Select a time.';
+    else if (!timeRegex.test(form.appointmentTime)) errs.appointmentTime = 'Enter a valid time.';
     
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
@@ -85,9 +91,18 @@ const PatientDashboard = () => {
       // We must send the *actual* contact number. Let's add contact, address to the form, but prefill it if possible.
       // For now, let's just make the user enter their contact number again to confirm.
       
+      let contactNumber = prompt("Please confirm your contact number to book this appointment:") || '';
+      while (contactNumber && !phoneRegex.test(contactNumber)) {
+        contactNumber = prompt("Invalid format. Please enter a valid Sri Lankan contact number:") || '';
+      }
+      if (!contactNumber) {
+        setBookLoading(false);
+        return;
+      }
+      
       const payload = {
         patientName: user?.fullName || 'Patient',
-        contactNumber: prompt("Please confirm your contact number to book this appointment:") || '',
+        contactNumber: contactNumber,
         address: 'Patient Address', // We could also ask for this
         dentistId: form.dentistId,
         treatmentType: form.treatmentType,

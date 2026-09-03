@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
 
@@ -27,6 +27,7 @@ const PrescriptionPage = () => {
     { id: 1, name: "", dosage: "", frequency: "Twice daily", duration: "5 days" }
   ]);
   const [nextId, setNextId] = useState(2);
+  const [error, setError] = useState("");
 
   const addMed = () => {
     setMeds(prev => [...prev, { id: nextId, name: "", dosage: "", frequency: "Twice daily", duration: "5 days" }]);
@@ -37,7 +38,33 @@ const PrescriptionPage = () => {
     setMeds(prev => prev.map(m => m.id === id ? { ...m, [field]: value } : m));
   };
 
-  const handlePrint = () => window.print();
+  const validate = () => {
+    if (!form.patientName.trim()) {
+      setError("Patient Name is required.");
+      return false;
+    }
+    if (!form.date.trim()) {
+      setError("Date is required.");
+      return false;
+    }
+    if (!form.dentistName.trim()) {
+      setError("Prescribing Dentist Name is required.");
+      return false;
+    }
+    const hasValidMed = meds.some(m => m.name.trim() !== "");
+    if (!hasValidMed) {
+      setError("At least one medication name is required.");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
+  const handlePrint = () => {
+    if (validate()) {
+      window.print();
+    }
+  };
 
   return (
     <div className="page-wrapper">
@@ -47,6 +74,8 @@ const PrescriptionPage = () => {
           <h2>💊 Prescription Generator</h2>
           <p>Fill in the details and print a prescription for your patient.</p>
         </div>
+
+        {error && <div className="alert alert-error" style={{ marginBottom: "var(--space-4)" }}>{error}</div>}
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-6)" }}>
           {/* Form */}
