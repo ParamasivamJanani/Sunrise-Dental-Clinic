@@ -8,12 +8,15 @@ import com.sunrise.dental.model.Bill;
 import com.sunrise.dental.repository.AppointmentRepository;
 import com.sunrise.dental.repository.BillRepository;
 import com.sunrise.dental.service.strategy.TreatmentPricingStrategy;
+import com.sunrise.dental.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BillService {
@@ -21,13 +24,16 @@ public class BillService {
     private final BillRepository billRepository;
     private final AppointmentRepository appointmentRepository;
     private final Map<String, TreatmentPricingStrategy> pricingStrategies;
+    private final UserRepository userRepository;
 
     public BillService(BillRepository billRepository,
                        AppointmentRepository appointmentRepository,
-                       Map<String, TreatmentPricingStrategy> pricingStrategies) {
+                       Map<String, TreatmentPricingStrategy> pricingStrategies,
+                       UserRepository userRepository) {
         this.billRepository = billRepository;
         this.appointmentRepository = appointmentRepository;
         this.pricingStrategies = pricingStrategies;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -74,6 +80,15 @@ public class BillService {
         LocalDateTime start = LocalDate.now().atStartOfDay();
         LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
         return billRepository.sumRevenueByDateRange(start, end);
+    }
+
+    public List<BillResponse> getMyBills(String username) {
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return billRepository.findByAppointment_Patient_ContactNumber(user.getContactNumber())
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     TreatmentPricingStrategy resolveStrategy(String treatmentType) {

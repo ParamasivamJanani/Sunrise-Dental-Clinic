@@ -42,6 +42,8 @@ com\sunrise\dental\dto\LoginRequest.class
 com\sunrise\dental\repository\DentistRepository.class
 com\sunrise\dental\model\Bill$Builder.class
 com\sunrise\dental\controller\AppointmentController.class
+com\sunrise\dental\dto\ProfileUpdateRequest.class
+com\sunrise\dental\dto\ChangePasswordRequest.class
 com\sunrise\dental\model\User$Role.class
 com\sunrise\dental\service\strategy\TeethWhiteningPricing.class
 com\sunrise\dental\repository\BillRepository.class
@@ -52,6 +54,7 @@ com\sunrise\dental\exception\AppointmentNotFoundException.class
 com\sunrise\dental\controller\ReportController.class
 com\sunrise\dental\model\User$Builder.class
 com\sunrise\dental\config\SecurityConfig.class
+com\sunrise\dental\dto\ProfileResponse.class
 com\sunrise\dental\config\JwtUtil.class
 com\sunrise\dental\model\Appointment$Status.class
 com\sunrise\dental\service\strategy\ToothExtractionPricing.class
@@ -59,5 +62,6 @@ com\sunrise\dental\model\Bill.class
 com\sunrise\dental\repository\UserRepository.class
 com\sunrise\dental\model\Dentist.class
 com\sunrise\dental\model\Patient.class
+com\sunrise\dental\dto\ProfileResponse$Builder.class
 com\sunrise\dental\dto\LoginResponse.class
 com\sunrise\dental\controller\DentistController.class

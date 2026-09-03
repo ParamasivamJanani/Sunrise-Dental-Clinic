@@ -101,6 +101,27 @@ public class AppointmentService {
     }
 
     @Transactional
+    public void cancelMyAppointment(String username, String appointmentNumber) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Appointment appointment = appointmentRepository.findByAppointmentNumber(appointmentNumber)
+                .orElseThrow(() -> new AppointmentNotFoundException(appointmentNumber));
+
+        // Ownership check
+        if (!appointment.getPatient().getContactNumber().equals(user.getContactNumber())) {
+            throw new SecurityException("You are not authorized to cancel this appointment.");
+        }
+
+        if (appointment.getStatus() != Appointment.Status.SCHEDULED) {
+            throw new IllegalStateException("Only SCHEDULED appointments can be cancelled.");
+        }
+
+        appointment.setStatus(Appointment.Status.CANCELLED);
+        appointmentRepository.save(appointment);
+    }
+
+    @Transactional
     public AppointmentResponse updateStatus(String appointmentNumber, String status) {
         Appointment appointment = appointmentRepository.findByAppointmentNumber(appointmentNumber)
                 .orElseThrow(() -> new AppointmentNotFoundException(appointmentNumber));

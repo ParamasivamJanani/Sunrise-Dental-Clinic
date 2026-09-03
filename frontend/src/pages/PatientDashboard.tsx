@@ -27,6 +27,7 @@ const PatientDashboard = () => {
   const [bookLoading, setBookLoading] = useState(false);
   const [bookSuccess, setBookSuccess] = useState('');
   const [apiError, setApiError] = useState('');
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   const fetchAppointments = () => {
     setLoading(true);
@@ -40,6 +41,20 @@ const PatientDashboard = () => {
     fetchAppointments();
     axiosClient.get<DentistResponse[]>('/dentists/public').then(res => setDentists(res.data)).catch(console.error);
   }, []);
+
+  const handleCancel = async (appointmentNumber: string) => {
+    if (!window.confirm('Are you sure you want to cancel this appointment?')) return;
+    setCancellingId(appointmentNumber);
+    try {
+      await axiosClient.delete(`/appointments/me/${appointmentNumber}`);
+      setBookSuccess('Appointment cancelled successfully.');
+      fetchAppointments();
+    } catch (err: any) {
+      setApiError(err.response?.data?.message || 'Failed to cancel appointment.');
+    } finally {
+      setCancellingId(null);
+    }
+  };
 
   const handleBook = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,6 +181,7 @@ const PatientDashboard = () => {
                     <th>Dentist</th>
                     <th>Treatment</th>
                     <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -176,6 +192,18 @@ const PatientDashboard = () => {
                       <td>{a.dentistName}</td>
                       <td>{a.treatmentType.replace(/_/g, ' ')}</td>
                       <td>{statusBadge(a.status)}</td>
+                      <td>
+                        {a.status === 'SCHEDULED' && (
+                          <button
+                            className="btn btn-secondary"
+                            style={{ padding: '4px 10px', fontSize: '0.8rem', color: 'var(--color-danger, #e74c3c)' }}
+                            disabled={cancellingId === a.appointmentNumber}
+                            onClick={() => handleCancel(a.appointmentNumber)}
+                          >
+                            {cancellingId === a.appointmentNumber ? '...' : '✕ Cancel'}
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

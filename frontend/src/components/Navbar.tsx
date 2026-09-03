@@ -5,6 +5,8 @@ const getNavItems = (role?: string) => {
   if (role === 'PATIENT') {
     return [
       { path: '/',         icon: '📊', label: 'My Portal' },
+      { path: '/my-bills', icon: '🧾', label: 'My Bills' },
+      { path: '/profile',  icon: '👤', label: 'My Profile' },
       { path: '/help',     icon: '❓', label: 'Help' },
     ];
   }

@@ -10,6 +10,8 @@ import HelpPage from './pages/HelpPage';
 import DentistRegisterPage from './pages/DentistRegisterPage';
 import PatientSignupPage from './pages/PatientSignupPage';
 import PatientDashboard from './pages/PatientDashboard';
+import PatientProfilePage from './pages/PatientProfilePage';
+import PatientBillingPage from './pages/PatientBillingPage';
 import { useAuth } from './context/AuthContext';
 import './styles/globals.css';
 
@@ -32,6 +34,8 @@ function App() {
           <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
           <Route path="/bill" element={<ProtectedRoute><BillPage /></ProtectedRoute>} />
           <Route path="/help" element={<ProtectedRoute><HelpPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><PatientProfilePage /></ProtectedRoute>} />
+          <Route path="/my-bills" element={<ProtectedRoute><PatientBillingPage /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

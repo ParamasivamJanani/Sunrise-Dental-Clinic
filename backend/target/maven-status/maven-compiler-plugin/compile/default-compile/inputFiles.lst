@@ -11,6 +11,7 @@ C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\s
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\AppointmentRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\AppointmentResponse.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\BillResponse.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\ChangePasswordRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\DailyReportResponse.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\DentistRegistrationRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\DentistResponse.java
@@ -18,6 +19,8 @@ C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\s
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\LoginRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\LoginResponse.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\PatientSignupRequest.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\ProfileResponse.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\ProfileUpdateRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\AppointmentNotFoundException.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\BillAlreadyExistsException.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\DuplicateAppointmentException.java

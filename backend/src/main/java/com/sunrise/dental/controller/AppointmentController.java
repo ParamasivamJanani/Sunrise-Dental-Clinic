@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,20 @@ public class AppointmentController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<AppointmentResponse>> listMyAppointments(java.security.Principal principal) {
+    public ResponseEntity<List<AppointmentResponse>> listMyAppointments(Principal principal) {
         return ResponseEntity.ok(appointmentService.listMyAppointments(principal.getName()));
+    }
+
+    @DeleteMapping("/me/{appointmentNumber}")
+    public ResponseEntity<?> cancelMyAppointment(@PathVariable String appointmentNumber, Principal principal) {
+        try {
+            appointmentService.cancelMyAppointment(principal.getName(), appointmentNumber);
+            return ResponseEntity.ok(Map.of("message", "Appointment cancelled successfully."));
+        } catch (SecurityException e) {
+            return ResponseEntity.status(403).body(Map.of("message", e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
     }
 
     @PatchMapping("/{appointmentNumber}/status")

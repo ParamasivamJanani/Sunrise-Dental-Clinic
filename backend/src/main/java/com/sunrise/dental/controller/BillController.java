@@ -5,6 +5,9 @@ import com.sunrise.dental.service.BillService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/bills")
 public class BillController {
@@ -29,4 +32,10 @@ public class BillController {
     public ResponseEntity<BillResponse> markPaid(@PathVariable Long billId) {
         return ResponseEntity.ok(billService.markAsPaid(billId));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<BillResponse>> getMyBills(Principal principal) {
+        return ResponseEntity.ok(billService.getMyBills(principal.getName()));
+    }
 }
+

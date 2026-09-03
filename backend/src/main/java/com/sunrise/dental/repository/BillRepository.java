@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,6 +16,8 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
     Optional<Bill> findByAppointmentAppointmentNumber(String appointmentNumber);
 
     boolean existsByAppointmentAppointmentNumber(String appointmentNumber);
+
+    List<Bill> findByAppointment_Patient_ContactNumber(String contactNumber);
 
     @Query("SELECT COALESCE(SUM(b.totalAmount), 0) FROM Bill b WHERE b.generatedAt BETWEEN :start AND :end AND b.isPaid = true")
     double sumRevenueByDateRange(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);

@@ -28,13 +28,21 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/login", "/api/auth/forgot-password", "/api/auth/register-patient").permitAll()
                 .requestMatchers("/api/appointments/public", "/api/dentists/public").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/appointments/me").hasRole("PATIENT")
+                // Patient-only endpoints
+                .requestMatchers(HttpMethod.GET,    "/api/auth/me").hasRole("PATIENT")
+                .requestMatchers(HttpMethod.PUT,    "/api/auth/me").hasRole("PATIENT")
+                .requestMatchers(HttpMethod.PUT,    "/api/auth/me/password").hasRole("PATIENT")
+                .requestMatchers(HttpMethod.GET,    "/api/appointments/me").hasRole("PATIENT")
+                .requestMatchers(HttpMethod.DELETE, "/api/appointments/me/**").hasRole("PATIENT")
+                .requestMatchers(HttpMethod.GET,    "/api/bills/me").hasRole("PATIENT")
+                // Staff / admin endpoints
                 .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "RECEPTIONIST")
                 .requestMatchers(HttpMethod.POST, "/api/dentists/register").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/dentists/**").authenticated()
                 .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "RECEPTIONIST")
+                .requestMatchers("/api/bills/**").hasAnyRole("ADMIN", "RECEPTIONIST")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
