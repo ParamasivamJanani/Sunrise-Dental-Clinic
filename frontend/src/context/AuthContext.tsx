@@ -18,12 +18,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = useCallback((authUser: AuthUser) => {
     localStorage.setItem('token', authUser.token);
+    if (authUser.refreshToken) {
+      localStorage.setItem('refreshToken', authUser.refreshToken);
+    }
     localStorage.setItem('user', JSON.stringify(authUser));
     setUser(authUser);
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
     setUser(null);
   }, []);

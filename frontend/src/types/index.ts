@@ -7,6 +7,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
+  refreshToken?: string;
   role: string;
   fullName: string;
   username: string;
@@ -97,6 +98,7 @@ export type UserRole = 'ADMIN' | 'RECEPTIONIST' | 'DENTIST' | 'PATIENT';
 
 export interface AuthUser {
   token: string;
+  refreshToken?: string;
   role: UserRole;
   fullName: string;
   username: string;

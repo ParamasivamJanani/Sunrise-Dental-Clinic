@@ -26,6 +26,7 @@ com\sunrise\dental\model\Appointment.class
 com\sunrise\dental\config\CorsConfig.class
 com\sunrise\dental\dto\DentistResponse.class
 com\sunrise\dental\service\strategy\RootCanalPricing.class
+com\sunrise\dental\dto\RefreshTokenRequest.class
 com\sunrise\dental\exception\DuplicateAppointmentException.class
 com\sunrise\dental\dto\DentistResponse$Builder.class
 com\sunrise\dental\controller\BillController.class
@@ -71,3 +72,4 @@ com\sunrise\dental\model\Patient.class
 com\sunrise\dental\dto\ProfileResponse$Builder.class
 com\sunrise\dental\dto\LoginResponse.class
 com\sunrise\dental\controller\DentistController.class
+com\sunrise\dental\config\JwtAuthenticationEntryPoint.class

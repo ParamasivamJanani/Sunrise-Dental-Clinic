@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/reports")
 public class ReportController {
@@ -19,6 +21,7 @@ public class ReportController {
         this.reportService = reportService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
     @GetMapping("/daily")
     public ResponseEntity<DailyReportResponse> dailyReport(
             @RequestParam(required = false)
@@ -26,6 +29,7 @@ public class ReportController {
         return ResponseEntity.ok(reportService.getDailyReport(date != null ? date : LocalDate.now()));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
     @GetMapping("/monthly")
     public ResponseEntity<MonthlyReportResponse> monthlyReport(
             @RequestParam(required = false) Integer year) {

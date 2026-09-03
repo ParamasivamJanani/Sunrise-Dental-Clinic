@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/patients")
 public class PatientController {
@@ -19,16 +21,19 @@ public class PatientController {
         this.patientService = patientService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
     @GetMapping
     public ResponseEntity<List<PatientResponse>> getAllPatients() {
         return ResponseEntity.ok(patientService.getAllPatients());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
     @GetMapping("/{patientId}/appointments")
     public ResponseEntity<List<AppointmentResponse>> getPatientHistory(@PathVariable Long patientId) {
         return ResponseEntity.ok(patientService.getPatientHistory(patientId));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     @PutMapping("/{patientId}")
     public ResponseEntity<PatientResponse> updatePatient(
             @PathVariable Long patientId,

@@ -1,5 +1,6 @@
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\config\CorsConfig.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\config\DataSeeder.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\config\JwtAuthenticationEntryPoint.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\config\JwtAuthFilter.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\config\JwtUtil.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\config\SecurityConfig.java
@@ -25,6 +26,7 @@ C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\s
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\PatientUpdateRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\ProfileResponse.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\ProfileUpdateRequest.java
+C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\dto\RefreshTokenRequest.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\AppointmentNotFoundException.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\BillAlreadyExistsException.java
 C:\Users\Dell\OneDrive\Desktop\Sunrise Dental Clinic\backend\src\main\java\com\sunrise\dental\exception\DuplicateAppointmentException.java

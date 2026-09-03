@@ -7,6 +7,7 @@ import com.sunrise.dental.dto.ChangePasswordRequest;
 import com.sunrise.dental.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,16 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@Valid @RequestBody com.sunrise.dental.dto.RefreshTokenRequest request) {
+        try {
+            LoginResponse response = authService.refreshToken(request.getRefreshToken());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) { // Catching Exception here since JWT exceptions might bubble up, or BadCredentials
+            return ResponseEntity.status(401).body(Map.of("message", "Invalid or expired refresh token."));
+        }
+    }
+
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@Valid @RequestBody com.sunrise.dental.dto.ForgotPasswordRequest request) {
         try {
@@ -53,11 +64,13 @@ public class AuthController {
         }
     }
 
+    @PreAuthorize("hasRole('PATIENT')")
     @GetMapping("/me")
     public ResponseEntity<?> getProfile(Principal principal) {
         return ResponseEntity.ok(authService.getProfile(principal.getName()));
     }
 
+    @PreAuthorize("hasRole('PATIENT')")
     @PutMapping("/me")
     public ResponseEntity<?> updateProfile(@Valid @RequestBody ProfileUpdateRequest request, Principal principal) {
         try {
@@ -67,6 +80,7 @@ public class AuthController {
         }
     }
 
+    @PreAuthorize("hasRole('PATIENT')")
     @PutMapping("/me/password")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request, Principal principal) {
         try {

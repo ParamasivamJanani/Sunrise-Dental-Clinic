@@ -15,15 +15,17 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.servlet.HandlerExceptionResolver;
+
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
-    public JwtAuthFilter(JwtUtil jwtUtil, UserRepository userRepository) {
+    public JwtAuthFilter(JwtUtil jwtUtil, HandlerExceptionResolver handlerExceptionResolver) {
         this.jwtUtil = jwtUtil;
-        this.userRepository = userRepository;
+        this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
     @Override
@@ -38,27 +40,25 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-        if (!jwtUtil.validateToken(token)) {
+        try {
+            jwtUtil.validateToken(token);
+            
+            String username = jwtUtil.extractUsername(token);
+            String role = jwtUtil.extractRole(token);
+            boolean isActive = jwtUtil.extractIsActive(token);
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null && isActive) {
+                var auth = new UsernamePasswordAuthenticationToken(
+                        username, null,
+                        List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                );
+                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+            
             filterChain.doFilter(request, response);
-            return;
+        } catch (Exception ex) {
+            handlerExceptionResolver.resolveException(request, response, null, ex);
         }
-
-        String username = jwtUtil.extractUsername(token);
-        String role = jwtUtil.extractRole(token);
-
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            userRepository.findByUsername(username).ifPresent(user -> {
-                if (user.isActive()) {
-                    var auth = new UsernamePasswordAuthenticationToken(
-                            username, null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + role))
-                    );
-                    auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                }
-            });
-        }
-
-        filterChain.doFilter(request, response);
     }
 }

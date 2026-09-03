@@ -12,39 +12,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.jwtAuthFilter = jwtAuthFilter;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
+            .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login", "/api/auth/forgot-password", "/api/auth/register-patient").permitAll()
+                .requestMatchers("/api/auth/login", "/api/auth/refresh", "/api/auth/forgot-password", "/api/auth/register-patient").permitAll()
                 .requestMatchers("/api/appointments/public", "/api/dentists/public").permitAll()
-                // Patient-only endpoints
-                .requestMatchers(HttpMethod.GET,    "/api/auth/me").hasRole("PATIENT")
-                .requestMatchers(HttpMethod.PUT,    "/api/auth/me").hasRole("PATIENT")
-                .requestMatchers(HttpMethod.PUT,    "/api/auth/me/password").hasRole("PATIENT")
-                .requestMatchers(HttpMethod.GET,    "/api/appointments/me").hasRole("PATIENT")
-                .requestMatchers(HttpMethod.DELETE, "/api/appointments/me/**").hasRole("PATIENT")
-                .requestMatchers(HttpMethod.GET,    "/api/bills/me").hasRole("PATIENT")
-                // Staff / admin endpoints
-                .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "RECEPTIONIST", "DENTIST")
-                .requestMatchers(HttpMethod.POST, "/api/dentists/register").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/dentists/**").authenticated()
-                .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "RECEPTIONIST", "DENTIST")
-                .requestMatchers("/api/bills/**").hasAnyRole("ADMIN", "RECEPTIONIST")
-                .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("ADMIN", "RECEPTIONIST", "DENTIST")
-                .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasAnyRole("ADMIN", "RECEPTIONIST")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

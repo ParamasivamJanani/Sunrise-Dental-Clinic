@@ -45,10 +45,12 @@ public class AuthService {
             throw new BadCredentialsException("Invalid username or password");
         }
 
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name(), user.isActive());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
 
         return LoginResponse.builder()
                 .token(token)
+                .refreshToken(refreshToken)
                 .role(user.getRole().name())
                 .fullName(user.getFullName())
                 .username(user.getUsername())
@@ -94,10 +96,35 @@ public class AuthService {
                         .address(request.getAddress())
                         .build()));
                         
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name(), user.isActive());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
         
         return LoginResponse.builder()
                 .token(token)
+                .refreshToken(refreshToken)
+                .role(user.getRole().name())
+                .fullName(user.getFullName())
+                .username(user.getUsername())
+                .build();
+    }
+
+    public LoginResponse refreshToken(String refreshToken) {
+        jwtUtil.validateToken(refreshToken);
+        String username = jwtUtil.extractUsername(refreshToken);
+        
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
+                
+        if (!user.isActive()) {
+            throw new BadCredentialsException("Account is disabled.");
+        }
+        
+        String newToken = jwtUtil.generateToken(user.getUsername(), user.getRole().name(), user.isActive());
+        String newRefreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+        
+        return LoginResponse.builder()
+                .token(newToken)
+                .refreshToken(newRefreshToken)
                 .role(user.getRole().name())
                 .fullName(user.getFullName())
                 .username(user.getUsername())

@@ -71,7 +71,8 @@ class AuthServiceTest {
     void tc10_correctCredentials_shouldReturnToken() {
         when(userRepository.findByUsername("staff")).thenReturn(Optional.of(activeUser));
         when(passwordEncoder.matches("staff123", activeUser.getPassword())).thenReturn(true);
-        when(jwtUtil.generateToken("staff", "RECEPTIONIST")).thenReturn("mock.jwt.token");
+        when(jwtUtil.generateToken("staff", "RECEPTIONIST", true)).thenReturn("mock.jwt.token");
+        when(jwtUtil.generateRefreshToken("staff")).thenReturn("mock.refresh.token");
 
         LoginRequest request = new LoginRequest();
         request.setUsername("staff");
