@@ -17,6 +17,17 @@ const getNavItems = (role?: string) => {
       { path: '/help',        icon: '❓', label: 'Help' },
     ];
   }
+  if (role === 'DENTIST') {
+    return [
+      { path: '/',            icon: '📊', label: 'Dashboard' },
+      { path: '/search',      icon: '🔍', label: 'Search / View' },
+      { path: '/patients',    icon: '👥', label: 'Patients' },
+      { path: '/calendar',    icon: '📅', label: 'Calendar' },
+      { path: '/reports',     icon: '📈', label: 'Reports' },
+      { path: '/prescription',icon: '💊', label: 'Prescription' },
+      { path: '/help',        icon: '❓', label: 'Help' },
+    ];
+  }
   return [
     { path: '/',            icon: '📊', label: 'Dashboard' },
     { path: '/register',    icon: '📋', label: 'Register Appointment' },
