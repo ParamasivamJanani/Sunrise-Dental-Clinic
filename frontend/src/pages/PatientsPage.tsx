@@ -227,7 +227,7 @@ const PatientsPage = () => {
                 <p style={{ color: "var(--color-text-muted)", fontSize: 14 }}>No appointments found.</p>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
-                  {history.slice(0, 5).map(a => (
+                  {history.map(a => (
                     <div key={a.id} style={{
                       background: "var(--color-bg-hover)",
                       borderRadius: "var(--radius-md)",
@@ -245,11 +245,7 @@ const PatientsPage = () => {
                       {statusBadge(a.status)}
                     </div>
                   ))}
-                  {history.length > 5 && (
-                    <p style={{ fontSize: 12, color: "var(--color-text-muted)", textAlign: "center" }}>
-                      +{history.length - 5} more appointments
-                    </p>
-                  )}
+
                 </div>
               )}
             </div>

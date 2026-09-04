@@ -13,7 +13,7 @@ interface BillResponse {
   discount: number;
   totalAmount: number;
   generatedAt: string;
-  isPaid: boolean;
+  paid: boolean;
 }
 
 const PatientBillingPage = () => {
@@ -72,8 +72,8 @@ const PatientBillingPage = () => {
                         <td>{bill.dentistName}</td>
                         <td style={{ fontWeight: 600 }}>{fmt(bill.totalAmount)}</td>
                         <td>
-                          <span className={`badge ${bill.isPaid ? 'badge-completed' : 'badge-scheduled'}`}>
-                            {bill.isPaid ? 'PAID' : 'UNPAID'}
+                          <span className={`badge ${bill.paid ? 'badge-completed' : 'badge-scheduled'}`}>
+                            {bill.paid ? 'PAID' : 'UNPAID'}
                           </span>
                         </td>
                         <td>

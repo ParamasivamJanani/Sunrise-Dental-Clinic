@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axiosClient from "../api/axiosClient";
 import { MonthlyReportResponse } from "../types";
@@ -8,11 +8,14 @@ const ReportsPage = () => {
   const [year, setYear] = useState(currentYear);
   const [report, setReport] = useState<MonthlyReportResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setLoading(true);
+    setError('');
     axiosClient.get<MonthlyReportResponse>(`/reports/monthly?year=${year}`)
       .then(r => setReport(r.data))
+      .catch(err => setError(err.response?.data?.message || 'Failed to load report data.'))
       .finally(() => setLoading(false));
   }, [year]);
 
@@ -56,6 +59,7 @@ const ReportsPage = () => {
 
         <div className="card" style={{ marginBottom: "var(--space-6)" }}>
           <div className="card-title">Monthly Revenue Chart</div>
+          {error && <div className="alert alert-error" style={{ margin: 'var(--space-4)' }}>{error}</div>}
           {loading ? (
             <div style={{ textAlign: "center", padding: "var(--space-8)" }}>
               <div className="spinner" style={{ margin: "0 auto" }} />

@@ -43,6 +43,26 @@ public class AppointmentService {
         this.userRepository = userRepository;
     }
 
+    @jakarta.annotation.PostConstruct
+    public void init() {
+        List<Appointment> todaysAppointments = appointmentRepository.findByAppointmentDate(LocalDate.now());
+        int maxCount = 0;
+        for (Appointment a : todaysAppointments) {
+            try {
+                String[] parts = a.getAppointmentNumber().split("-");
+                if (parts.length == 3) {
+                    int count = Integer.parseInt(parts[2]);
+                    if (count > maxCount) {
+                        maxCount = count;
+                    }
+                }
+            } catch (Exception e) {
+                // Ignore parse errors
+            }
+        }
+        dailyCounter.set(maxCount);
+    }
+
     @Transactional
     public AppointmentResponse registerAppointment(AppointmentRequest request) {
         String appointmentNumber = generateAppointmentNumber();

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axiosClient from "../api/axiosClient";
 import { AppointmentResponse } from "../types";
@@ -13,11 +13,14 @@ const CalendarPage = () => {
   const [allAppts, setAllAppts] = useState<AppointmentResponse[]>([]);
   const [selectedDay, setSelectedDay] = useState<number | null>(today.getDate());
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setLoading(true);
+    setError('');
     axiosClient.get<AppointmentResponse[]>("/appointments")
       .then(r => setAllAppts(r.data))
+      .catch(err => setError(err.response?.data?.message || 'Failed to load appointments.'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -75,6 +78,7 @@ const CalendarPage = () => {
               ))}
             </div>
 
+            {error && <div className="alert alert-error" style={{ margin: 'var(--space-4)' }}>{error}</div>}
             {loading ? (
               <div style={{ textAlign: "center", padding: "var(--space-8)" }}>
                 <div className="spinner" style={{ margin: "0 auto" }} />

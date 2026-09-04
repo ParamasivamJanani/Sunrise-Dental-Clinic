@@ -141,10 +141,7 @@ const LoginPage = () => {
           )}
         </form>
 
-        <div style={{ marginTop: 'var(--space-6)', padding: 'var(--space-4)', background: 'var(--color-surface-2)', borderRadius: 'var(--radius-md)', fontSize: '12px', color: 'var(--color-text-muted)' }}>
-          <strong style={{ color: 'var(--color-text-secondary)' }}>Default credentials:</strong><br />
-          Admin: <code>admin / admin123</code>&nbsp;&nbsp;|&nbsp;&nbsp;Staff: <code>staff / staff123</code>
-        </div>
+
       </div>
     </div>
   );

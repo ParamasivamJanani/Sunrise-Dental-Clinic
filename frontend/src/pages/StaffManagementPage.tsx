@@ -9,7 +9,7 @@ interface Dentist {
   name: string;
   specialization: string;
   consultationFee: number;
-  isAvailable: boolean;
+  available: boolean;
 }
 
 const StaffManagementPage = () => {
@@ -71,8 +71,8 @@ const StaffManagementPage = () => {
           ) : dentists.length === 0 ? (
             <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No dentists registered yet.</div>
           ) : (
-            <div className="table-responsive">
-              <table className="table">
+            <div className="table-wrapper">
+              <table>
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -90,8 +90,8 @@ const StaffManagementPage = () => {
                       <td>{dentist.specialization || 'General Dentist'}</td>
                       <td>{dentist.consultationFee.toFixed(2)}</td>
                       <td>
-                        <span className={`badge ${dentist.isAvailable ? 'badge-success' : 'badge-error'}`}>
-                          {dentist.isAvailable ? 'Available' : 'Unavailable'}
+                        <span className={`badge ${dentist.available ? 'badge-completed' : 'badge-scheduled'}`}>
+                          {dentist.available ? 'Available' : 'Unavailable'}
                         </span>
                       </td>
                     </tr>

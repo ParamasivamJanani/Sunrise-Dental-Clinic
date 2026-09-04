@@ -25,7 +25,7 @@ const PatientDashboard = () => {
   
   // Booking form state
   const [showBooking, setShowBooking] = useState(false);
-  const [form, setForm] = useState({ dentistId: 0, treatmentType: '', appointmentDate: '', appointmentTime: '' });
+  const [form, setForm] = useState({ dentistId: 0, treatmentType: '', appointmentDate: '', appointmentTime: '', contactNumber: '', address: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [bookLoading, setBookLoading] = useState(false);
   const [bookSuccess, setBookSuccess] = useState('');
@@ -36,18 +36,22 @@ const PatientDashboard = () => {
     setLoading(true);
     axiosClient.get<AppointmentResponse[]>('/appointments/me')
       .then(res => setAppointments(res.data))
-      .catch(console.error)
+      .catch(err => setApiError(err.response?.data?.message || 'Failed to load appointments.'))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     fetchAppointments();
-    axiosClient.get<DentistResponse[]>('/dentists/public').then(res => setDentists(res.data)).catch(console.error);
+    axiosClient.get<DentistResponse[]>('/dentists/public').then(res => setDentists(res.data)).catch(() => setApiError('Failed to load dentists.'));
+    axiosClient.get('/auth/me').then(res => {
+      setForm(prev => ({ ...prev, contactNumber: res.data.contactNumber, address: res.data.address }));
+    }).catch(() => {});
   }, []);
 
   const handleCancel = async (appointmentNumber: string) => {
     if (!window.confirm('Are you sure you want to cancel this appointment?')) return;
     setCancellingId(appointmentNumber);
+    setApiError('');
     try {
       await axiosClient.delete(`/appointments/me/${appointmentNumber}`);
       setBookSuccess('Appointment cancelled successfully.');
@@ -71,6 +75,9 @@ const PatientDashboard = () => {
     
     if (!form.appointmentTime) errs.appointmentTime = 'Select a time.';
     else if (!timeRegex.test(form.appointmentTime)) errs.appointmentTime = 'Enter a valid time.';
+    if (!form.contactNumber) errs.contactNumber = 'Contact number is required.';
+    else if (!phoneRegex.test(form.contactNumber)) errs.contactNumber = 'Enter a valid Sri Lankan contact number.';
+    if (!form.address) errs.address = 'Address is required.';
     
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
@@ -79,31 +86,10 @@ const PatientDashboard = () => {
     
     setBookLoading(true);
     try {
-      // Since patient name, contact, address are required by backend AppointmentRequest,
-      // but we want to use the logged-in user's details, the backend AppointmentService
-      // uses request.getContactNumber() to find the patient. But we can just send dummy data
-      // or we need the backend to support patient self-booking without sending all those details.
-      // Wait, the backend currently requires patientName, contactNumber, address.
-      // Let's get them from somewhere? We don't have them in `user` context except fullName.
-      // So we will just ask the patient to confirm them, or we can use dummy data if the backend
-      // `listMyAppointments` just matches the contact number. 
-      // Actually, if we just send the user's fullName and a dummy contact, it won't match.
-      // We must send the *actual* contact number. Let's add contact, address to the form, but prefill it if possible.
-      // For now, let's just make the user enter their contact number again to confirm.
-      
-      let contactNumber = prompt("Please confirm your contact number to book this appointment:") || '';
-      while (contactNumber && !phoneRegex.test(contactNumber)) {
-        contactNumber = prompt("Invalid format. Please enter a valid Sri Lankan contact number:") || '';
-      }
-      if (!contactNumber) {
-        setBookLoading(false);
-        return;
-      }
-      
       const payload = {
         patientName: user?.fullName || 'Patient',
-        contactNumber: contactNumber,
-        address: 'Patient Address', // We could also ask for this
+        contactNumber: form.contactNumber,
+        address: form.address,
         dentistId: form.dentistId,
         treatmentType: form.treatmentType,
         appointmentDate: form.appointmentDate,
@@ -112,7 +98,7 @@ const PatientDashboard = () => {
 
       await axiosClient.post('/appointments/public', payload);
       setBookSuccess('Appointment booked successfully!');
-      setForm({ dentistId: 0, treatmentType: '', appointmentDate: '', appointmentTime: '' });
+      setForm(prev => ({ ...prev, dentistId: 0, treatmentType: '', appointmentDate: '', appointmentTime: '' }));
       fetchAppointments();
       setShowBooking(false);
     } catch (err: any) {
@@ -172,6 +158,16 @@ const PatientDashboard = () => {
                 <label>Time</label>
                 <input type="time" value={form.appointmentTime} onChange={e => setForm({...form, appointmentTime: e.target.value})} />
                 {errors.appointmentTime && <span className="input-error">{errors.appointmentTime}</span>}
+              </div>
+              <div className="form-group">
+                <label>Contact Number</label>
+                <input type="text" value={form.contactNumber} onChange={e => setForm({...form, contactNumber: e.target.value})} placeholder="0771234567" />
+                {errors.contactNumber && <span className="input-error">{errors.contactNumber}</span>}
+              </div>
+              <div className="form-group">
+                <label>Address</label>
+                <input type="text" value={form.address} onChange={e => setForm({...form, address: e.target.value})} placeholder="Your Address" />
+                {errors.address && <span className="input-error">{errors.address}</span>}
               </div>
               <div className="form-group full-width" style={{ marginTop: 'var(--space-2)' }}>
                 <button type="submit" className="btn btn-primary" disabled={bookLoading}>
