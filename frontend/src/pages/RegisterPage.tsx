@@ -70,6 +70,9 @@ const RegisterPage = () => {
       setApiError(err.response?.data?.message ?? 'Failed to register appointment.');
     } finally {
       setLoading(false);
+    }
+  };
+
   const handlePrintSlip = () => {
     if (!success) return;
     const printWindow = window.open('', '_blank');
