@@ -681,3 +681,11 @@ td:first-child { color: var(--color-text-primary); font-weight: 500; }
   .receipt-row { color: #333 !important; }
   .receipt-row.total { color: #0f766e !important; }
 }
+
+/* react-datepicker overrides */
+.date-picker-wrapper {
+  width: 100%;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}

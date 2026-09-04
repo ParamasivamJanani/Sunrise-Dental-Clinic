@@ -3,6 +3,9 @@ import Navbar from '../components/Navbar';
 import axiosClient from '../api/axiosClient';
 import { AppointmentResponse, DentistResponse } from '../types';
 import { useAuth } from '../context/AuthContext';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
 
 const TREATMENTS = [
   { value: 'CONSULTATION',       label: 'Consultation — LKR 1,500' },
@@ -151,12 +154,29 @@ const PatientDashboard = () => {
               </div>
               <div className="form-group">
                 <label>Date</label>
-                <input type="date" value={form.appointmentDate} min={new Date().toISOString().split('T')[0]} onChange={e => setForm({...form, appointmentDate: e.target.value})} />
+                <DatePicker 
+                  selected={form.appointmentDate ? new Date(form.appointmentDate + "T00:00:00") : null} 
+                  onChange={(date: Date | null) => setForm({...form, appointmentDate: date ? format(date, 'yyyy-MM-dd') : ''})} 
+                  minDate={new Date()} 
+                  dateFormat="yyyy-MM-dd" 
+                  placeholderText="Select Date"
+                  wrapperClassName="date-picker-wrapper"
+                />
                 {errors.appointmentDate && <span className="input-error">{errors.appointmentDate}</span>}
               </div>
               <div className="form-group">
                 <label>Time</label>
-                <input type="time" value={form.appointmentTime} onChange={e => setForm({...form, appointmentTime: e.target.value})} />
+                <DatePicker 
+                  selected={form.appointmentTime ? new Date(`1970-01-01T${form.appointmentTime}:00`) : null} 
+                  onChange={(date: Date | null) => setForm({...form, appointmentTime: date ? format(date, 'HH:mm') : ''})} 
+                  showTimeSelect 
+                  showTimeSelectOnly 
+                  timeIntervals={15} 
+                  timeCaption="Time" 
+                  dateFormat="HH:mm" 
+                  placeholderText="Select Time"
+                  wrapperClassName="date-picker-wrapper"
+                />
                 {errors.appointmentTime && <span className="input-error">{errors.appointmentTime}</span>}
               </div>
               <div className="form-group">
