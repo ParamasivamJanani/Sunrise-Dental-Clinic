@@ -94,7 +94,7 @@ export interface MonthlyReportResponse {
   }[];
 }
 
-export type UserRole = 'ADMIN' | 'RECEPTIONIST' | 'DENTIST' | 'PATIENT';
+export type UserRole = 'ADMIN' | 'STAFF';
 
 export interface AuthUser {
   token: string;

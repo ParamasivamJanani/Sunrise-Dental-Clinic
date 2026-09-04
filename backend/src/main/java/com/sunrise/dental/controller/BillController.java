@@ -20,28 +20,23 @@ public class BillController {
         this.billService = billService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @PostMapping("/generate/{appointmentNumber}")
     public ResponseEntity<BillResponse> generateBill(@PathVariable String appointmentNumber) {
         return ResponseEntity.ok(billService.generateBill(appointmentNumber));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/{appointmentNumber}")
     public ResponseEntity<BillResponse> getBill(@PathVariable String appointmentNumber) {
         return ResponseEntity.ok(billService.getBill(appointmentNumber));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @PatchMapping("/{billId}/pay")
     public ResponseEntity<BillResponse> markPaid(@PathVariable Long billId) {
         return ResponseEntity.ok(billService.markAsPaid(billId));
     }
 
-    @PreAuthorize("hasRole('PATIENT')")
-    @GetMapping("/me")
-    public ResponseEntity<List<BillResponse>> getMyBills(Principal principal) {
-        return ResponseEntity.ok(billService.getMyBills(principal.getName()));
-    }
 }
 

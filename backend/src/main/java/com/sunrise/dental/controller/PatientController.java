@@ -21,19 +21,19 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping
     public ResponseEntity<List<PatientResponse>> getAllPatients() {
         return ResponseEntity.ok(patientService.getAllPatients());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/{patientId}/appointments")
     public ResponseEntity<List<AppointmentResponse>> getPatientHistory(@PathVariable Long patientId) {
         return ResponseEntity.ok(patientService.getPatientHistory(patientId));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @PutMapping("/{patientId}")
     public ResponseEntity<PatientResponse> updatePatient(
             @PathVariable Long patientId,

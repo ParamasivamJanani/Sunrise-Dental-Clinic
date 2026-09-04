@@ -70,7 +70,48 @@ const RegisterPage = () => {
       setApiError(err.response?.data?.message ?? 'Failed to register appointment.');
     } finally {
       setLoading(false);
-    }
+  const handlePrintSlip = () => {
+    if (!success) return;
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+    
+    const html = `
+      <html>
+        <head>
+          <title>Appointment Slip</title>
+          <style>
+            body { font-family: 'Inter', system-ui, sans-serif; padding: 20px; color: #333; max-width: 400px; margin: 0 auto; }
+            .slip { border: 1px dashed #ccc; padding: 20px; border-radius: 8px; }
+            .header { text-align: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+            .title { font-size: 18px; font-weight: bold; color: #2563eb; margin: 0; }
+            .subtitle { font-size: 12px; color: #666; margin-top: 4px; }
+            .detail { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+            .label { color: #666; }
+            .value { font-weight: 600; }
+            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #999; }
+          </style>
+        </head>
+        <body>
+          <div class="slip">
+            <div class="header">
+              <h1 class="title">Sunrise Dental Clinic</h1>
+              <div class="subtitle">Appointment Confirmation Slip</div>
+            </div>
+            <div class="detail"><span class="label">Appt No:</span> <span class="value">${success.appointmentNumber}</span></div>
+            <div class="detail"><span class="label">Patient:</span> <span class="value">${success.patientName}</span></div>
+            <div class="detail"><span class="label">Dentist:</span> <span class="value">${success.dentistName}</span></div>
+            <div class="detail"><span class="label">Date:</span> <span class="value">${success.appointmentDate}</span></div>
+            <div class="detail"><span class="label">Time:</span> <span class="value">${success.appointmentTime}</span></div>
+            <div class="footer">Please bring this slip to the clinic.<br/>Thank you!</div>
+          </div>
+          <script>
+            window.onload = function() { window.print(); window.setTimeout(function(){ window.close(); }, 500); }
+          </script>
+        </body>
+      </html>
+    `;
+    printWindow.document.write(html);
+    printWindow.document.close();
   };
 
   return (
@@ -83,8 +124,13 @@ const RegisterPage = () => {
         </div>
 
         {success && (
-          <div className="alert alert-success">
-            ✅ Appointment registered successfully! Appointment Number: <strong>{success.appointmentNumber}</strong>
+          <div className="alert alert-success" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              ✅ Appointment registered successfully! Appointment Number: <strong>{success.appointmentNumber}</strong>
+            </div>
+            <button className="btn btn-primary" onClick={handlePrintSlip} style={{ padding: '6px 12px', fontSize: '0.9rem' }}>
+              🖨️ Print Slip
+            </button>
           </div>
         )}
         {apiError && <div className="alert alert-error">⚠️ {apiError}</div>}

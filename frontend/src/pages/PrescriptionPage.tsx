@@ -21,7 +21,7 @@ const PrescriptionPage = () => {
     date: today,
     diagnosis: "",
     notes: "",
-    dentistName: user?.fullName ?? "",
+    dentistName: "",
   });
   const [meds, setMeds] = useState<MedRow[]>([
     { id: 1, name: "", dosage: "", frequency: "Twice daily", duration: "5 days" }

@@ -2,14 +2,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const getNavItems = (role?: string) => {
-  if (role === 'PATIENT') {
-    return [
-      { path: '/',         icon: '📊', label: 'My Portal' },
-      { path: '/my-bills', icon: '🧾', label: 'My Bills' },
-      { path: '/profile',  icon: '👤', label: 'My Profile' },
-      { path: '/help',     icon: '❓', label: 'Help' },
-    ];
-  }
   if (role === 'ADMIN') {
     return [
       { path: '/',            icon: '📊', label: 'Dashboard' },
@@ -17,17 +9,7 @@ const getNavItems = (role?: string) => {
       { path: '/help',        icon: '❓', label: 'Help' },
     ];
   }
-  if (role === 'DENTIST') {
-    return [
-      { path: '/',            icon: '📊', label: 'Dashboard' },
-      { path: '/search',      icon: '🔍', label: 'Search / View' },
-      { path: '/patients',    icon: '👥', label: 'Patients' },
-      { path: '/calendar',    icon: '📅', label: 'Calendar' },
-      { path: '/reports',     icon: '📈', label: 'Reports' },
-      { path: '/prescription',icon: '💊', label: 'Prescription' },
-      { path: '/help',        icon: '❓', label: 'Help' },
-    ];
-  }
+  // STAFF items
   return [
     { path: '/',            icon: '📊', label: 'Dashboard' },
     { path: '/register',    icon: '📋', label: 'Register Appointment' },

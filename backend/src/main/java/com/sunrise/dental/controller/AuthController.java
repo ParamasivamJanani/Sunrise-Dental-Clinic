@@ -54,41 +54,4 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/register-patient")
-    public ResponseEntity<?> registerPatient(@Valid @RequestBody com.sunrise.dental.dto.PatientSignupRequest request) {
-        try {
-            LoginResponse response = authService.registerPatient(request);
-            return ResponseEntity.status(201).body(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-        }
-    }
-
-    @PreAuthorize("hasRole('PATIENT')")
-    @GetMapping("/me")
-    public ResponseEntity<?> getProfile(Principal principal) {
-        return ResponseEntity.ok(authService.getProfile(principal.getName()));
-    }
-
-    @PreAuthorize("hasRole('PATIENT')")
-    @PutMapping("/me")
-    public ResponseEntity<?> updateProfile(@Valid @RequestBody ProfileUpdateRequest request, Principal principal) {
-        try {
-            return ResponseEntity.ok(authService.updateProfile(principal.getName(), request));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-        }
-    }
-
-    @PreAuthorize("hasRole('PATIENT')")
-    @PutMapping("/me/password")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request, Principal principal) {
-        try {
-            authService.changePassword(principal.getName(), request);
-            return ResponseEntity.ok(Map.of("message", "Password changed successfully."));
-        } catch (BadCredentialsException | IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-        }
-    }
 }
-

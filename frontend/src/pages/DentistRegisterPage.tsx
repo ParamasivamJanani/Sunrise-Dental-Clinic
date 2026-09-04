@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 const DentistRegisterPage = () => {
   const { user } = useAuth();
   const [form, setForm] = useState({
-    username: '', email: '', fullName: '', consultationFee: 0
+    fullName: '', specialization: '', consultationFee: 0
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [successMsg, setSuccessMsg] = useState('');
@@ -27,10 +27,8 @@ const DentistRegisterPage = () => {
 
   const validate = () => {
     const e: Record<string, string> = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!form.username || form.username.length < 4) e.username = 'Username must be at least 4 characters';
-    if (!emailRegex.test(form.email)) e.email = 'Valid email is required';
     if (!form.fullName) e.fullName = 'Full Name is required';
+    if (!form.specialization) e.specialization = 'Specialization is required';
     if (form.consultationFee < 0) e.consultationFee = 'Fee must be positive';
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -49,8 +47,8 @@ const DentistRegisterPage = () => {
     setLoading(true);
     try {
       await axiosClient.post('/dentists/register', form);
-      setSuccessMsg(`Dentist ${form.fullName} registered successfully! A temporary password has been emailed to ${form.email}.`);
-      setForm({ username: '', email: '', fullName: '', consultationFee: 0 });
+      setSuccessMsg(`Dentist ${form.fullName} registered successfully!`);
+      setForm({ fullName: '', specialization: '', consultationFee: 0 });
     } catch (err: any) {
       setApiError(err.response?.data?.message ?? 'Failed to register dentist.');
     } finally {
@@ -64,7 +62,7 @@ const DentistRegisterPage = () => {
       <main className="main-content">
         <div className="page-header">
           <h2>🧑‍⚕️ Register New Dentist</h2>
-          <p>Create a new dentist account for the clinic.</p>
+          <p>Add a new dentist record to the system.</p>
         </div>
 
         {successMsg && <div className="alert alert-success">✅ {successMsg}</div>}
@@ -80,21 +78,15 @@ const DentistRegisterPage = () => {
               </div>
 
               <div className="form-group">
+                <label htmlFor="specialization">Specialization *</label>
+                <input id="specialization" name="specialization" value={form.specialization} onChange={handleChange} placeholder="e.g. General Dentist" className={errors.specialization ? 'error' : ''} />
+                {errors.specialization && <span className="input-error">{errors.specialization}</span>}
+              </div>
+
+              <div className="form-group">
                 <label htmlFor="consultationFee">Consultation Fee (LKR) *</label>
                 <input id="consultationFee" name="consultationFee" type="number" min="0" value={form.consultationFee} onChange={handleChange} className={errors.consultationFee ? 'error' : ''} />
                 {errors.consultationFee && <span className="input-error">{errors.consultationFee}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="username">Username *</label>
-                <input id="username" name="username" value={form.username} onChange={handleChange} placeholder="Login username" className={errors.username ? 'error' : ''} />
-                {errors.username && <span className="input-error">{errors.username}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email Address *</label>
-                <input id="email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="dentist@example.com" className={errors.email ? 'error' : ''} />
-                {errors.email && <span className="input-error">{errors.email}</span>}
               </div>
             </div>
 

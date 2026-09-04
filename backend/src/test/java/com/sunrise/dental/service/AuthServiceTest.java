@@ -45,7 +45,7 @@ class AuthServiceTest {
                 .id(1L).username("staff")
                 .password("$2a$12$hashedpassword")
                 .fullName("Clinic Receptionist")
-                .role(User.Role.RECEPTIONIST)
+                .role(User.Role.STAFF)
                 .isActive(true).build();
     }
 
@@ -71,7 +71,7 @@ class AuthServiceTest {
     void tc10_correctCredentials_shouldReturnToken() {
         when(userRepository.findByUsername("staff")).thenReturn(Optional.of(activeUser));
         when(passwordEncoder.matches("staff123", activeUser.getPassword())).thenReturn(true);
-        when(jwtUtil.generateToken("staff", "RECEPTIONIST", true)).thenReturn("mock.jwt.token");
+        when(jwtUtil.generateToken("staff", "STAFF", true)).thenReturn("mock.jwt.token");
         when(jwtUtil.generateRefreshToken("staff")).thenReturn("mock.refresh.token");
 
         LoginRequest request = new LoginRequest();
@@ -82,7 +82,7 @@ class AuthServiceTest {
 
         assertThat(response).isNotNull();
         assertThat(response.getToken()).isEqualTo("mock.jwt.token");
-        assertThat(response.getRole()).isEqualTo("RECEPTIONIST");
+        assertThat(response.getRole()).isEqualTo("STAFF");
         assertThat(response.getFullName()).isEqualTo("Clinic Receptionist");
     }
 
@@ -106,7 +106,7 @@ class AuthServiceTest {
     void tc12_inactiveAccount_shouldThrow() {
         User inactiveUser = User.builder()
                 .id(2L).username("inactive").password("pass")
-                .fullName("Old Staff").role(User.Role.RECEPTIONIST)
+                .fullName("Old Staff").role(User.Role.STAFF)
                 .isActive(false).build();
 
         when(userRepository.findByUsername("inactive")).thenReturn(Optional.of(inactiveUser));

@@ -21,7 +21,7 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/daily")
     public ResponseEntity<DailyReportResponse> dailyReport(
             @RequestParam(required = false)
@@ -29,7 +29,7 @@ public class ReportController {
         return ResponseEntity.ok(reportService.getDailyReport(date != null ? date : LocalDate.now()));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/monthly")
     public ResponseEntity<MonthlyReportResponse> monthlyReport(
             @RequestParam(required = false) Integer year) {

@@ -39,7 +39,7 @@ public class User {
         this.fullName = fullName; this.contactNumber = contactNumber; this.role = role; this.isActive = isActive;
     }
 
-    public enum Role { ADMIN, RECEPTIONIST, DENTIST, PATIENT }
+    public enum Role { ADMIN, STAFF }
 
     // Getters
     public Long getId() { return id; }

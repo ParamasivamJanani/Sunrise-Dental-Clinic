@@ -44,10 +44,8 @@ public class DataSeeder implements CommandLineRunner {
             userRepository.save(User.builder().username("admin").email("janani199805@gmail.com").password(passwordEncoder.encode("admin123"))
                     .fullName("System Administrator").role(User.Role.ADMIN).build());
             userRepository.save(User.builder().username("staff").email("infovista67@gmail.com").password(passwordEncoder.encode("staff123"))
-                    .fullName("Clinic Receptionist").role(User.Role.RECEPTIONIST).build());
-            userRepository.save(User.builder().username("drpriya").email("drpriya@sunrise.com").password(passwordEncoder.encode("dentist123"))
-                    .fullName("Dr. Priya Perera").role(User.Role.DENTIST).build());
-            log.info("Default users seeded: admin / staff / drpriya");
+                    .fullName("Clinic Staff").role(User.Role.STAFF).build());
+            log.info("Default users seeded: admin / staff");
         }
     }
 

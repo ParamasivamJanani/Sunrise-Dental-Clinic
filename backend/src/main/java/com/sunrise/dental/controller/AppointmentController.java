@@ -24,55 +24,33 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @PostMapping
     public ResponseEntity<AppointmentResponse> register(@Valid @RequestBody AppointmentRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(appointmentService.registerAppointment(request));
     }
 
-    @PostMapping("/public")
-    public ResponseEntity<AppointmentResponse> registerPublic(@Valid @RequestBody AppointmentRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(appointmentService.registerAppointment(request));
-    }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/{appointmentNumber}")
     public ResponseEntity<AppointmentResponse> getByNumber(@PathVariable String appointmentNumber) {
         return ResponseEntity.ok(appointmentService.findByAppointmentNumber(appointmentNumber));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping
     public ResponseEntity<List<AppointmentResponse>> listAll() {
         return ResponseEntity.ok(appointmentService.listAll());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/today")
     public ResponseEntity<List<AppointmentResponse>> listToday() {
         return ResponseEntity.ok(appointmentService.listToday());
     }
 
-    @PreAuthorize("hasRole('PATIENT')")
-    @GetMapping("/me")
-    public ResponseEntity<List<AppointmentResponse>> listMyAppointments(Principal principal) {
-        return ResponseEntity.ok(appointmentService.listMyAppointments(principal.getName()));
-    }
 
-    @PreAuthorize("hasRole('PATIENT')")
-    @DeleteMapping("/me/{appointmentNumber}")
-    public ResponseEntity<?> cancelMyAppointment(@PathVariable String appointmentNumber, Principal principal) {
-        try {
-            appointmentService.cancelMyAppointment(principal.getName(), appointmentNumber);
-            return ResponseEntity.ok(Map.of("message", "Appointment cancelled successfully."));
-        } catch (SecurityException e) {
-            return ResponseEntity.status(403).body(Map.of("message", e.getMessage()));
-        } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-        }
-    }
-
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @PatchMapping("/{appointmentNumber}/status")
     public ResponseEntity<AppointmentResponse> updateStatus(
             @PathVariable String appointmentNumber,
@@ -80,7 +58,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.updateStatus(appointmentNumber, body.get("status")));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DENTIST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @PatchMapping("/{appointmentNumber}/notes")
     public ResponseEntity<AppointmentResponse> updateNotes(
             @PathVariable String appointmentNumber,
